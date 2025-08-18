@@ -24,14 +24,15 @@ spec:
               enabled: true
               org_role: Viewer
         resources:
-          requests: { cpu: 50m, memory: 128Mi }
+          requests: { cpu: 50m,  memory: 128Mi }
           limits:   { cpu: 200m, memory: 256Mi }
         ingress:
           enabled: true
           ingressClassName: nginx
           path: /
           pathType: Prefix
-          hosts: [ "grafana.yigitaws.xyz" ]
+          hosts:
+            - grafana.yigitaws.xyz
   syncPolicy:
     automated:
       prune: true

@@ -11,11 +11,12 @@ spec:
   source:
     repoURL: https://prometheus-community.github.io/helm-charts
     chart: prometheus
-    targetRevision: "*"     # istersen sabitle
+    targetRevision: "*"
     helm:
       valuesObject:
         server:
           persistentVolume: { enabled: false }
+          retention: 24h
           resources:
             requests: { cpu: 100m, memory: 512Mi }
             limits:   { cpu: 500m, memory: 1Gi }
@@ -26,7 +27,8 @@ spec:
             ingressClassName: nginx
             path: /
             pathType: Prefix
-            hosts: [ "prometheus.yigitaws.xyz" ]
+            hosts:
+              - prometheus.yigitaws.xyz
         alertmanager:
           persistentVolume: { enabled: false }
         prometheus-node-exporter:
