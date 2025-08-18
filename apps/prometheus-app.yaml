@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: prometheus
+    targetRevision: "*"     # istersen sabitle
+    helm:
+      valuesObject:
+        server:
+          persistentVolume: { enabled: false }
+          resources:
+            requests: { cpu: 100m, memory: 512Mi }
+            limits:   { cpu: 500m, memory: 1Gi }
+          service:
+            port: 80
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            path: /
+            pathType: Prefix
+            hosts: [ "prometheus.yigitaws.xyz" ]
+        alertmanager:
+          persistentVolume: { enabled: false }
+        prometheus-node-exporter:
+          enabled: true
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+        prometheus-pushgateway:
+          enabled: true
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

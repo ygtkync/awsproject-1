@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  source:
+    repoURL: https://grafana.github.io/helm-charts
+    chart: grafana
+    targetRevision: 8.3.0
+    helm:
+      valuesObject:
+        persistence:
+          enabled: false
+        service:
+          port: 80
+        grafana.ini:
+          auth:
+            anonymous:
+              enabled: true
+              org_role: Viewer
+        resources:
+          requests: { cpu: 50m, memory: 128Mi }
+          limits:   { cpu: 200m, memory: 256Mi }
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          path: /
+          pathType: Prefix
+          hosts: [ "grafana.yigitaws.xyz" ]
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
