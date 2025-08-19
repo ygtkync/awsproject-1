@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: online-boutique
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: online-boutique
+  source:
+    repoURL: https://github.com/GoogleCloudPlatform/microservices-demo
+    targetRevision: main      
+    path: helm-chart
+    helm:
+      valuesObject:
+        frontend:
+          service:
+            type: ClusterIP
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+              - host: boutique.yigitaws.xyz
+                paths:
+                  - path: /
+                    pathType: Prefix
+        loadGenerator:
+          enabled: false
+     
+        frontend:
+          resources:
+            requests: { cpu: "30m", memory: "96Mi" }
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
