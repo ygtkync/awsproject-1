@@ -11,7 +11,9 @@ spec:
   source:
     repoURL: https://github.com/ygtkync/awsproject-1/microservice-demo.git
     targetRevision: main
-    path: apps/online-boutique       # kustomize overlay'imiz
+    path: apps
+    directory:
+      recurse: false
   syncPolicy:
     automated:
       prune: true
