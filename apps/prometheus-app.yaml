@@ -19,7 +19,7 @@ spec:
           retention: 24h
           resources:
             requests: { cpu: 100m, memory: 256Mi }
-            limits:   { cpu: 500m, memory: 512Mi }
+            limits:   { cpu: 400m, memory: 512Mi }
           service: { port: 80 }
           ingress:
             enabled: true
