@@ -15,13 +15,12 @@ spec:
     helm:
       valuesObject:
         server:
-          persistentVolume: { enabled: false }
+          persistentVolume: { enabled: false }   # PVC/CSI uğraştırmasın
           retention: 24h
           resources:
-            requests: { cpu: 100m, memory: 512Mi }
-            limits:   { cpu: 500m, memory: 1Gi }
-          service:
-            port: 80
+            requests: { cpu: 100m, memory: 256Mi }
+            limits:   { cpu: 500m, memory: 512Mi }
+          service: { port: 80 }
           ingress:
             enabled: true
             ingressClassName: nginx
@@ -29,30 +28,22 @@ spec:
             pathType: Prefix
             hosts: [ "prometheus.yigitaws.xyz" ]
 
+        # DİĞER BİLEŞENLERİ KAPAT
         alertmanager:
-          enabled: true
-          persistentVolume: { enabled: false }
-          resources:
-            requests: { cpu: 20m, memory: 64Mi }
-            limits:   { cpu: 200m, memory: 256Mi }
+          enabled: false
+
+        prometheus-pushgateway:
+          enabled: false
+
+        kube-state-metrics:
+          enabled: false
 
         prometheus-node-exporter:
           enabled: true
           resources:
             requests: { cpu: 10m, memory: 32Mi }
             limits:   { cpu: 100m, memory: 128Mi }
-
-        prometheus-pushgateway:
-          enabled: true
-          resources:
-            requests: { cpu: 10m, memory: 32Mi }
-            limits:   { cpu: 100m, memory: 128Mi }
-
-        kube-state-metrics:
-          enabled: true
-          resources:
-            requests: { cpu: 20m, memory: 64Mi }
-            limits:   { cpu: 200m, memory: 256Mi }
+          
   syncPolicy:
     automated:
       prune: true
