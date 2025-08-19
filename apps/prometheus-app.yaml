@@ -27,18 +27,32 @@ spec:
             ingressClassName: nginx
             path: /
             pathType: Prefix
-            hosts:
-              - prometheus.yigitaws.xyz
+            hosts: [ "prometheus.yigitaws.xyz" ]
+
         alertmanager:
+          enabled: true
           persistentVolume: { enabled: false }
+          resources:
+            requests: { cpu: 20m, memory: 64Mi }
+            limits:   { cpu: 200m, memory: 256Mi }
+
         prometheus-node-exporter:
           enabled: true
           resources:
             requests: { cpu: 10m, memory: 32Mi }
+            limits:   { cpu: 100m, memory: 128Mi }
+
         prometheus-pushgateway:
           enabled: true
           resources:
             requests: { cpu: 10m, memory: 32Mi }
+            limits:   { cpu: 100m, memory: 128Mi }
+
+        kube-state-metrics:
+          enabled: true
+          resources:
+            requests: { cpu: 20m, memory: 64Mi }
+            limits:   { cpu: 200m, memory: 256Mi }
   syncPolicy:
     automated:
       prune: true
