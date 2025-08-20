@@ -6,7 +6,7 @@ metadata:
 spec:
   syncPolicy:
     automated:
-      prune: true      # Git’te olmayanları sil
+      prune: true      
       selfHeal: true  
   project: default
   destination:
