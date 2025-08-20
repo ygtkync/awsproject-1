@@ -20,7 +20,7 @@ spec:
           resources:
             requests: { cpu: 100m, memory: 256Mi }
             limits:   { cpu: 500m, memory: 512Mi }
-            
+          
           service: { port: 80 }
           ingress:
             enabled: true
