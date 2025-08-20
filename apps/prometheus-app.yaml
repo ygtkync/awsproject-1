@@ -1,49 +1,42 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: prometheus
+  name: online-boutique
   namespace: argocd
 spec:
   project: default
   destination:
     server: https://kubernetes.default.svc
-    namespace: monitoring
+    namespace: online-boutique
   source:
-    repoURL: https://prometheus-community.github.io/helm-charts
-    chart: prometheus
-    targetRevision: "*"
-    helm:
-      valuesObject:
-        server:
-          persistentVolume: { enabled: false }   # PVC/CSI uğraştırmasın
-          retention: 24h
-          resources:
-            requests: { cpu: 100m, memory: 256Mi }
-            limits:   { cpu: 400m, memory: 512Mi }
-          service: { port: 80 }
-          ingress:
-            enabled: true
-            ingressClassName: nginx
-            path: /
-            pathType: Prefix
-            hosts: [ "prometheus.yigitaws.xyz" ]
-
-        # DİĞER BİLEŞENLERİ KAPAT
-        alertmanager:
-          enabled: false
-
-        prometheus-pushgateway:
-          enabled: false
-
-        kube-state-metrics:
-          enabled: false
-
-        prometheus-node-exporter:
-          enabled: true
-          resources:
-            requests: { cpu: 10m, memory: 32Mi }
-            limits:   { cpu: 100m, memory: 128Mi }
-          
+    repoURL: https://github.com/ygtkync/awsproject-1.git
+    targetRevision: main
+ 
+    path: microservices-demo/kubernetes-manifests
+    directory:
+      recurse: true
+    kustomize:
+   
+      patches:
+        - target:
+            group: ""
+            version: v1
+            kind: Service
+            name: frontend-external
+            namespace: online-boutique
+          patch: |-
+            - op: replace
+              path: /spec/type
+              value: LoadBalancer
+            - op: add
+              path: /metadata/annotations
+              value:
+                service.beta.kubernetes.io/aws-load-balancer-type: nlb
+                service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+            
+            - op: replace
+              path: /spec/ports/0/port
+              value: 80
   syncPolicy:
     automated:
       prune: true
