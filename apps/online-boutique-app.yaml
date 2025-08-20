@@ -12,8 +12,7 @@ spec:
     repoURL: https://github.com/ygtkync/awsproject-1.git   
     targetRevision: main                                   
     path: online-boutique
-    directory:
-      recurse: true
+    kustomize: {}
   syncPolicy:
     automated:
       prune: true
