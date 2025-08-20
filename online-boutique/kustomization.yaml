@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: online-boutique
 
 resources:
-  - https://github.com/GoogleCloudPlatform/microservices-demo//kubernetes-manifests?ref=main
+  - https://github.com/GoogleCloudPlatform/microservices-demo//kubernetes-manifests
   - boutique-ingress.yaml
 
 # Upstream’teki LoadBalancer Service’i tamamen SİL
