@@ -117,15 +117,20 @@ emailService:
 frontend:
   create: true
   name: frontend
-  externalService: true
+  # Dış LB istemiyoruz:
+  externalService: false
+  # Ingress template’i bu porta bakacak
+  service:
+    type: ClusterIP
+    port: 80
+
   cymbalBranding: false
-  # One of: local, gcp, aws, azure, onprem, alibaba. When not set, defaults to "local" unless running in GKE, otherwise auto-sets to gcp.
   platform: local
   singleSharedSession: false
   virtualService:
     create: false
     hosts:
-    - "*"
+      - "*"
     gateway:
       name: asm-ingressgateway
       namespace: asm-ingress
@@ -140,7 +145,7 @@ frontend:
       memory: 128Mi
 
 loadGenerator:
-  create: true
+  create: false
   name: loadgenerator
   checkFrontendInitContainer: true
   resources:
@@ -218,3 +223,10 @@ cartDatabase:
 shoppingAssistantService:
   create: false
   name: shoppingassistantservice
+
+ingress:
+  enabled: true
+  className: nginx
+  host: boutique.yigitaws.xyz
+  path: /
+
