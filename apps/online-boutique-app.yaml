@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/ygtkync/awsproject-1.git   
     targetRevision: main                                   
-    path: microservices-demo/release/kubernetes-manifests  
+    path: microservices-demo/release
   syncPolicy:
     automated:
       prune: true
