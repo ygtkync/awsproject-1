@@ -14,10 +14,8 @@ spec:
     targetRevision: "*"
     helm:
       valuesObject:
-        alertmanager:
-          enabled: false
         server:
-          persistentVolume: { enabled: false }   # PVC/CSI uğraştırmasın
+          persistentVolume: { enabled: false }   
           retention: 24h
           resources:
             requests: { cpu: 100m, memory: 256Mi }
