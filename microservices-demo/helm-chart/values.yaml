@@ -19,7 +19,7 @@
 images:
   repository: 752095361085.dkr.ecr.eu-west-1.amazonaws.com/microservices-demo
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "v0.10.3"
 
 serviceAccounts:
   # Specifies whether service accounts should be created.
