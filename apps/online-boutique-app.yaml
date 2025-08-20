@@ -9,13 +9,14 @@ spec:
     server: https://kubernetes.default.svc
     namespace: online-boutique
   source:
-    repoURL: https://github.com/ygtkync/awsproject-1.git   
-    targetRevision: main                                   
-    path: online-boutique
-    kustomize: {}
+    repoURL: https://github.com/ygtkync/awsproject-1.git
+    targetRevision: main
+    path: microservices-demo/helm-chart
+    helm:
+      releaseName: online-boutique
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true
