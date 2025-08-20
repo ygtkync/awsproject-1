@@ -8,4 +8,5 @@ resources:
 
 # Upstream’teki LoadBalancer Service’i tamamen SİL
 patchesStrategicMerge:
-  - patch-delete-frontend-external.yaml
+  - patch-frontend-external-to-clusterip.yaml
+
