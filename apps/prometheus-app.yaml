@@ -15,12 +15,23 @@ spec:
     helm:
       valuesObject:
         server:
-          persistentVolume: { enabled: false }   
-          retention: 24h
-          resources:
-            requests: { cpu: 100m, memory: 256Mi }
-            limits:   { cpu: 500m, memory: 512Mi }
           
+          persistentVolume: { enabled: false }
+          retention: 24h
           service: { port: 80 }
           ingress:
             enabled: true
+            ingressClassName: nginx
+            hosts:
+              - prometheus.yigitaws.xyz
+            paths:
+              - /
+            pathType: Prefix
+        alertmanager:
+          enabled: false
+        prometheus-pushgateway:
+          enabled: false
+        kube-state-metrics:
+          enabled: false
+        prometheus-node-exporter:
+          enabled: true
